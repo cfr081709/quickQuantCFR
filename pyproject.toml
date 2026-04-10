@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quickQuantCFR"
+version = "1.0.0"
+description = "A simple quantitative finance library for Python"
+authors = [{name = "Christian Rafferty", email = "cfr081709@gmail.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11.9"
+dependencies = [
+    "numpy>=2.4.1",
+    "pandas>=2.3.1",
+    "yfinance>=0.2.65"
+]
+
+[project.urls]
+Homepage = "https://github.com/ChristianRafferty/quickQuantCFR"
+Repository = "https://github.com/ChristianRafferty/quickQuantCFR"
+Readme = "https://github.com/cfr081709/quickQuantCFR/blob/main/README.md"
+License = "https://github.com/cfr081709/quickQuantCFR/blob/main/LICENSE"
+Changelog = "https://github.com/cfr081709/quickQuantCFR/blob/main/CHANGELOG.txt"
+

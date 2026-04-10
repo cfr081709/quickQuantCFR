@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: quickQuantCFR
+Version: 0.1.0
+Summary: A simple quantitative finance library for Python
+Author-email: Christian Rafferty <cfr081709@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/ChristianRafferty/quickQuantCFR
+Project-URL: Repository, https://github.com/ChristianRafferty/quickQuantCFR
+Project-URL: Readme, https://github.com/cfr081709/quickQuantCFR/blob/main/README.md
+Project-URL: License, https://github.com/cfr081709/quickQuantCFR/blob/main/LICENSE
+Project-URL: Changelog, https://github.com/cfr081709/quickQuantCFR/blob/main/CHANGELOG.txt
+Requires-Python: >=3.11.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy>=2.4.1
+Requires-Dist: pandas>=2.3.1
+Requires-Dist: yfinance>=0.2.65
+Dynamic: license-file

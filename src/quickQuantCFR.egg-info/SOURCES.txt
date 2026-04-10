@@ -1,0 +1,9 @@
+LICENSE.txt
+pyproject.toml
+src/quickQuantCFR/__init__.py
+src/quickQuantCFR/core.py
+src/quickQuantCFR.egg-info/PKG-INFO
+src/quickQuantCFR.egg-info/SOURCES.txt
+src/quickQuantCFR.egg-info/dependency_links.txt
+src/quickQuantCFR.egg-info/requires.txt
+src/quickQuantCFR.egg-info/top_level.txt

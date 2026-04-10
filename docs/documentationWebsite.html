@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quickQuantCFR Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000;
+            background: #ffffff;
+        }
+        header {
+            background: #ffffff;
+            color: #000;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        header p {
+            margin: 8px 0 0;
+            opacity: 0.85;
+        }
+        nav {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 14px 20px;
+        }
+        nav a {
+            color: #000;
+            text-decoration: none;
+            margin-right: 16px;
+            font-weight: 600;
+        }
+        main {
+            max-width: 900px;
+            margin: 24px auto;
+            padding: 0 20px 40px;
+        }
+        section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+        }
+        section h2 {
+            margin-top: 0;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        ul {
+            line-height: 1.7;
+            margin: 0 0 18px 20px;
+            color: #000;
+        }
+        p, li, h1, h2, h3 {
+            color: #000;
+        }
+        pre {
+            background: #f3f4f6;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            line-height: 1.5;
+            color: #000;
+        }
+        footer {
+            text-align: center;
+            color: #000;
+            padding: 20px;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>quickQuantCFR Documentation</h1>
+        <p>Version 1.0.0 — MIT License</p>
+    </header>
+
+    <nav>
+        <a href="#data-collection">Data Collection</a>
+        <a href="#signal-retrieval">Signal Retrieval</a>
+        <a href="#signal-evaluation">Signal Evaluation</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>This documentation describes the main classes and methods for the quickQuantCFR library. The package includes data collection utilities, technical indicator retrieval functions, and signal evaluation helpers.</p>
+        </section>
+
+        <section id="data-collection">
+            <h2>class dataCollectioAndModification</h2>
+            <h3>def collectData(ticker, start_date, end_date):</h3>
+            <ul>
+                <li>-collects the data of the ticker from start_date to end_date and returns it</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-returns the collected data</li>
+            </ul>
+
+            <h3>def collectAndStoreData(ticker, start_date, end_date, filename):</h3>
+            <ul>
+                <li>-collects the data of the ticker from start_date to end_date and stores it in filename</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-filename is the name of the file in which the data is stored (e.g., 'stockData.csv', 'dataForResearch.csv') (Recommend CSV for ease of access)</li>
+                <li>-returns nothing</li>
+            </ul>
+
+            <h3>def readData(filename, print):</h3>
+            <ul>
+                <li>-parses the data in filename and prints it if print is true</li>
+                <li>-filename is the name of the file in which you want to read (e.g., 'stockData.csv', 'dataForResearch.csv') (Recommend CSV for ease of access)</li>
+                <li>-print is a boolean value wher if true it prints the read data</li>
+                <li>-returns data parse from filename</li>
+            </ul>
+
+            <h3>def clearDataFile(filename):</h3>
+            <ul>
+                <li>-clears filename of all data</li>
+                <li>-filename is the name of the file which you want cleared</li>
+                <li>-returns nothing</li>
+            </ul>
+        </section>
+
+        <section id="signal-retrieval">
+            <h2>class stockStandardSignalRetrieval</h2>
+
+            <h3>def getEMA(ticker, start_date, end_date, Print=False):</h3>
+            <ul>
+                <li>-Computes the EMA12, EMA26, EMA50, and EMA200, of the ticker, from start_date to end_date, appends them to the array exponentialMovingAverages, and prints the values if Print is true</li>
+                <li>-EMA12 stored at position 0 in array, EMA26 stored in position 1, EMA50 stored in position 2, and EMA200 stored in position 3</li>
+                <li>-exponentialMovingAverages array cleared everytime function is called</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-Print is a boolean value which if true leads to the array being printed</li>
+                <li>-returns exponentialMovingAverages array</li>
+            </ul>
+
+            <h3>def getSMA(ticker, start_date, end_date, Print=False):</h3>
+            <ul>
+                <li>-Computes the SMA20, SMA50, SMA100, and SMA200, of the ticker, from start_date to end_date, appends them to the array simpleMovingAverages, and prints the values if Print is true</li>
+                <li>-SMA20 stored at position 0 in array, SMA50 stored in position 1, SMA100 stored in position 2, and SMA200 stored in position 3</li>
+                <li>-simpleMovingAverages cleared everytime function is called</li>
+                <li>-ticker is the ticker of the stock whom's data ou're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-Print is a boolean value which if true leads to the array being printed</li>
+                <li>-returns simpleMovingAverages array</li>
+            </ul>
+
+            <h3>def getMACD(ticker, start_date, end_date, Print=False):</h3>
+            <ul>
+                <li>-Computes the MACD of the ticker, from start_date until end_date, and if print is true the MACD is printed</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-returns MACD</li>
+            </ul>
+
+            <h3>def getADX(ticker, start_date, end_date, Print=False):</h3>
+            <ul>
+                <li>-Computes the ADX of the ticker, from start_date until end_date, and if print is true the ADX is printed</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-returns ADX</li>
+            </ul>
+
+            <h3>def getRSI(ticker, start_date, end_date, Print=False):</h3>
+            <ul>
+                <li>-Computes the RSI of the ticker, from start_date until end_date, and if print is true the RSI is printed</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-returns RSI</li>
+            </ul>
+
+            <h3>def getOBV(ticker, start_date, end_date, Print=False):</h3>
+            <ul>
+                <li>-Computes the OBV of the ticker, from start_date until end_date, and if print is true the OBV is printed</li>
+                <li>-ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)</li>
+                <li>-start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))</li>
+                <li>-returns OBV</li>
+            </ul>
+        </section>
+
+        <section id="signal-evaluation">
+            <h2>class evaluationOfSignals</h2>
+
+            <h3>def evaluateEMA(ema_12, ema_26, ema_50, ema_200, Print=False):</h3>
+            <ul>
+                <li>-ema_12, ema_26, ema_50, and ema_200, can be manually inputed OR the stockStandardSignalRetrieval.getEMA(ticker, start_date, end_date, Print=False) function can be called with ema_12 being set equal to exponentialMovingAverages[0], ema_26 being set equal to exponentialMovingAverages[1], ema_50 being set equal to exponentialMovingAverages[2], ema_200 being set equal to exponentialMovingAverages[3]</li>
+                <li>-Compares the ema values determining if they are a buy, sell, or hold signal</li>
+                <li>-if Print equal to true the signal is printed</li>
+                <li>-returns signal</li>
+            </ul>
+
+            <h3>def evaluateSMA(sma_20, sma_50, sma_100, sma_200, Print=False):</h3>
+            <ul>
+                <li>-sma_20, sma_50, sma_100, and sma_200, can be manually inputed OR the stockStandardSignalRetrieval.getSMA(ticker, start_date, end_date, Print=False) function can be called with sma_20 being set equal to simpleMovingAverages[0], sma_50 being set equal to simpleMovingAverages[1], sma_100 being set equal to simpleMovingAverages[2], sma_200 being set equal to simpleMovingAverages[3]</li>
+                <li>-Compares the sma values determining if they are a buy, sell, or hold signal</li>
+                <li>-if Print equal to true the signal is printed</li>
+                <li>-returns signal</li>
+            </ul>
+
+            <h3>def evaluateMACD(macd, Print=False):</h3>
+            <ul>
+                <li>-MACD can be manually inputed OR set to stockStandardSignalRetrieval.getMACD(ticker, start_date, end_date, Print=False)</li>
+                <li>-Evaluates the MACD in order to determine a buy, sell, or hold signal</li>
+                <li>-if Print equal to true the signal is printed</li>
+                <li>-returns signal</li>
+            </ul>
+
+            <h3>def evaluateADX(adx, Print=False):</h3>
+            <ul>
+                <li>-ADX can be manually inputed OR set to stockStandardSignalRetrieval.getADX(ticker, start_date, end_date, Print=False)</li>
+                <li>-Evaluates the ADX in order to determine a strong trend, weak trend, or neutral trend</li>
+                <li>-if Print equal to true the signal is printed</li>
+                <li>-returns signal</li>
+            </ul>
+
+            <h3>def evaluateRSI(rsi, Print=False):</h3>
+            <ul>
+                <li>-RSI can be manually inputed OR set to stockStandardSignalRetrieval.getRSI(ticker, start_date, end_date, Print=False)</li>
+                <li>-Evaluates the ADX in order to determine over sold (buy), over bought (sell), or neutral (hold)</li>
+                <li>-if Print equal to true the signal is printed</li>
+                <li>-returns signal</li>
+            </ul>
+
+            <h3>def evaluateOBV(obv, Print=False):</h3>
+            <ul>
+                <li>-OBV can be manually inputed OR set to stockStandardSignalRetrieval.getOBV(ticker, start_date, end_date, Print=False)</li>
+                <li>-Evaluates the OBV in order to determine buying pressure (buy), selling pressure (sell), or neutral (hold)</li>
+                <li>-if Print equal to true the signal is printed</li>
+                <li>-returns signal</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>quickQuantCFR Documentation • Version 1.0.0 • MIT License</p>
+    </footer>
+</body>
+</html>

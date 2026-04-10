@@ -1,0 +1,105 @@
+quickQuantCFR Documentation
+Version: 1.0.0(April 4th, 2026)
+License: MIT License
+====================
+
+class dataCollectioAndModification:
+    def collectData(ticker, start_date, end_date):
+        -collects the data of the ticker from start_date to end_date and returns it
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -returns the collected data
+    def collectAndStoreData(ticker, start_date, end_date, filename):
+        -collects the data of the ticker from start_date to end_date and stores it in filename
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -filename is the name of the file in which the data is stored (e.g., 'stockData.csv', 'dataForResearch.csv') (Recommend CSV for ease of access)
+        -returns nothing
+    def readData(filename, print):
+        -parses the data in filename and prints it if print is true
+        -filename is the name of the file in which you want to read (e.g., 'stockData.csv', 'dataForResearch.csv') (Recommend CSV for ease of access)
+        -print is a boolean value wher if true it prints the read data
+        -returns data parse from filename
+    def clearDataFile(filename):
+        -clears filename of all data
+        -filename is the name of the file which you want cleared
+        -returns nothing
+
+class stockStandardSignalRetrieval:
+    def getEMA(ticker, start_date, end_date, Print=False):
+        -Computes the EMA12, EMA26, EMA50, and EMA200, of the ticker, from start_date to end_date, appends them to the array exponentialMovingAverages, and prints the values if Print is true
+        -EMA12 stored at position 0 in array, EMA26 stored in position 1, EMA50 stored in position 2, and EMA200 stored in position 3
+        -exponentialMovingAverages array cleared everytime function is called
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -Print is a boolean value which if true leads to the array being printed
+        -returns exponentialMovingAverages array
+    def getSMA(ticker, start_date, end_date, Print=False):
+        -Computes the SMA20, SMA50, SMA100, and SMA200, of the ticker, from start_date to end_date, appends them to the array simpleMovingAverages, and prints the values if Print is true
+        -SMA20 stored at position 0 in array, SMA50 stored in position 1, SMA100 stored in position 2, and SMA200 stored in position 3
+        -simpleMovingAverages cleared everytime function is called
+        -ticker is the ticker of the stock whom's data ou're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -Print is a boolean value which if true leads to the array being printed
+        -returns simpleMovingAverages array
+    def getMACD(ticker, start_date, end_date, Print=False):
+        -Computes the MACD of the ticker, from start_date until end_date, and if print is true the MACD is printed
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -returns MACD
+    def getADX(ticker, start_date, end_date, Print=False):
+        -Computes the ADX of the ticker, from start_date until end_date, and if print is true the ADX is printed
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -returns ADX
+    def getRSI(ticker, start_date, end_date, Print=False):
+        -Computes the RSI of the ticker, from start_date until end_date, and if print is true the RSI is printed
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -returns RSI
+    def getOBV(ticker, start_date, end_date, Print=False):
+        -Computes the OBV of the ticker, from start_date until end_date, and if print is true the OBV is printed
+        -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
+        -start_date is that date from which data collection begins in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -end_date is that date which data collection ends on in the form of YYYY-MM-DD (e.g., '2026-04-09(April 4th, 2026), '2009-08-17'(August 17th, 2009))
+        -returns OBV
+    
+class evaluationOfSignals:
+     def evaluateEMA(ema_12, ema_26, ema_50, ema_200, Print=False):
+        -ema_12, ema_26, ema_50, and ema_200, can be manually inputed OR the stockStandardSignalRetrieval.getEMA(ticker, start_date, end_date, Print=False) function can be called with ema_12 being set equal to exponentialMovingAverages[0], ema_26 being set equal to exponentialMovingAverages[1], ema_50 being set equal to exponentialMovingAverages[2], ema_200 being set equal to exponentialMovingAverages[3]
+        -Compares the ema values determining if they are a buy, sell, or hold signal
+        -if Print equal to true the signal is printed
+        -returns signal
+     def evaluateSMA(sma_20, sma_50, sma_100, sma_200, Print=False):
+        -sma_20, sma_50, sma_100, and sma_200, can be manually inputed OR the stockStandardSignalRetrieval.getSMA(ticker, start_date, end_date, Print=False) function can be called with sma_20 being set equal to simpleMovingAverages[0], sma_50 being set equal to simpleMovingAverages[1], sma_100 being set equal to simpleMovingAverages[2], sma_200 being set equal to simpleMovingAverages[3]
+        -Compares the sma values determining if they are a buy, sell, or hold signal
+        -if Print equal to true the signal is printed
+        -returns signal
+    def evaluateMACD(macd, Print=False):
+        -MACD can be manually inputed OR set to stockStandardSignalRetrieval.getMACD(ticker, start_date, end_date, Print=False)
+        -Evaluates the MACD in order to determine a buy, sell, or hold signal
+        -if Print equal to true the signal is printed
+        -returns signal
+    def evaluateADX(adx, Print=False):
+        -ADX can be manually inputed OR set to stockStandardSignalRetrieval.getADX(ticker, start_date, end_date, Print=False)
+        -Evaluates the ADX in order to determine a strong trend, weak trend, or neutral trend
+        -if Print equal to true the signal is printed
+        -returns signal
+    def evaluateRSI(rsi, Print=False):
+        -RSI can be manually inputed OR set to stockStandardSignalRetrieval.getRSI(ticker, start_date, end_date, Print=False)
+        -Evaluates the ADX in order to determine over sold (buy), over bought (sell), or neutral (hold)
+        -if Print equal to true the signal is printed
+        -returns signal
+    def evaluateOBV(obv, Print=False):
+        -OBV can be manually inputed OR set to stockStandardSignalRetrieval.getOBV(ticker, start_date, end_date, Print=False)
+        -Evaluates the OBV in order to determine buying pressure (buy), selling pressure (sell), or neutral (hold)
+        -if Print equal to true the signal is printed
+        -returns signal
+    
