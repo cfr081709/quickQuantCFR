@@ -3,7 +3,9 @@ Version: 1.0.0(April 4th, 2026)
 License: MIT License
 ====================
 
-class dataCollectioAndModification:
+All functions are static methods, so they can be called without creating an instance of the class (e.g., dataCollectionAndModification.collectData(ticker, start_date, end_date)).
+
+class dataCollectionAndModification:
     def collectData(ticker, start_date, end_date):
         -collects the data of the ticker from start_date to end_date and returns it
         -ticker is the ticker of the stock whom's data you're collecting (e.g., 'AAPL', 'TSLA', etc.)
@@ -103,3 +105,140 @@ class evaluationOfSignals:
         -if Print equal to true the signal is printed
         -returns signal
     
+class monteCarloSimulations:
+        def callPayoff(ST, K):
+            -Determines the payoff of a call option given the stock price at maturity and the strike price
+            -ST is the stock price at maturity
+            -K is the strike price
+            -returns payoff of call option
+        def putPayoff(ST, K):
+            -Determines the payoff of a put option given the stock price at maturity and the strike price
+            -ST is the stock price at maturity
+            -K is the strike price
+            -returns payoff of put option
+        def generateRandomNumbers(n):
+            - Generates n standard normally distributed random numbers (Z ~ N(0,1)) using NumPy’s default random number generator
+            - n is the number of random values to generate
+            - returns a NumPy array of length n containing independent standard normal samples
+        def priceOptions(S0, K, r, sigma, T, n_simulations, Print=False):
+            -Prices European call and put options using Monte Carlo simulation
+            -S0 is the initial stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -n_simulations is the number of Monte Carlo simulations to run
+            -if Print equal to true the call and put prices are printed
+            -returns callPrice, putPrice
+
+class blackScholesModel:
+        def blackScholesCall(S, K, r, sigma, T, Print=False):
+            -Prices a European call option using the Black-Scholes formula
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the call price is printed
+            -returns callPrice
+        def blackScholesPut(S, K, r, sigma, T, Print=False):
+            -Prices a European put option using the Black-Scholes formula
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the put price is printed
+            -returns putPrice
+        def blackScholes(S, K, r, sigma, T, Print=False):
+            -Prices both a European call and put option using the Black-Scholes formula and returns both prices as a tuple (callPrice, putPrice)
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true both call and put prices are printed
+            -returns callPrice, putPrice
+
+class calculateGreeks:
+        def deltaCall(S, K, r, sigma, T, Print=False):
+            -Calculates the delta of a call option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the delta is printed
+            -returns deltaCall
+        def deltaPut(S, K, r, sigma, T, Print=False):
+            -Calculates the delta of a put option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the delta is printed
+            -returns deltaPut
+        def gamma(S, K, r, sigma, T, Print=False):
+            -Calculates the gamma of an option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the gamma is printed
+            -returns gamma
+        def vega(S, K, r, sigma, T, Print=False):
+            -Calculates the vega of an option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the vega is printed
+            -returns vega
+        def thetaCall(S, K, r, sigma, T, Print=False):
+            -Calculates the theta of a call option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the theta is printed
+            -returns thetaCall
+        def thetaPut(S, K, r, sigma, T, Print=False):
+            -Calculates the theta of a put option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the theta is printed
+            -returns thetaPut
+        def rhoCall(S, K, r, sigma, T, Print=False):
+            -Calculates the rho of a call option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the rho is printed
+            -returns rhoCall
+        def rhoPut(S, K, r, sigma, T, Print=False):
+            -Calculates the rho of a put option
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true the rho is printed
+            -returns rhoPut
+        def computeAllGreeks(S, K, r, sigma, T, Print=False):
+            -Calculates all the Greeks of an option and returns them as a dictionary
+            -S is the current stock price
+            -K is the strike price
+            -r is the risk-free interest rate (annualized)
+            -sigma is the volatility of the stock (annualized standard deviation of returns)
+            -T is the time to maturity of the option in years
+            -if Print equal to true all the Greeks are printed
+            -returns all the Greeks 'deltaCall', 'deltaPut', 'gamma', 'vega', 'thetaCall', 'thetaPut', 'rhoCall', and 'rhoPut'

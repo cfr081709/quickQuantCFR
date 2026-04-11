@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quickQuantCFR"
-version = "1.0.0"
+version = "1.1.0"
 description = "A simple quantitative finance library for Python"
 authors = [{name = "Christian Rafferty", email = "cfr081709@gmail.com"}]
 license = {text = "MIT"}
@@ -17,9 +17,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ChristianRafferty/quickQuantCFR"
-Repository = "https://github.com/ChristianRafferty/quickQuantCFR"
+Homepage = "https://github.com/cfr081709/quickQuantCFR"
 Readme = "https://github.com/cfr081709/quickQuantCFR/blob/main/README.md"
-License = "https://github.com/cfr081709/quickQuantCFR/blob/main/LICENSE"
-Changelog = "https://github.com/cfr081709/quickQuantCFR/blob/main/CHANGELOG.txt"
+License = "https://github.com/cfr081709/quickQuantCFR/blob/main/LICENSE.txt"
+Changelog = "https://github.com/cfr081709/quickQuantCFR/blob/main/CHANGELOG.md"
 
