@@ -1,14 +1,13 @@
 Metadata-Version: 2.4
 Name: quickQuantCFR
-Version: 1.0.0
+Version: 1.1.0
 Summary: A simple quantitative finance library for Python
 Author-email: Christian Rafferty <cfr081709@gmail.com>
 License: MIT
-Project-URL: Homepage, https://github.com/ChristianRafferty/quickQuantCFR
-Project-URL: Repository, https://github.com/ChristianRafferty/quickQuantCFR
+Project-URL: Homepage, https://github.com/cfr081709/quickQuantCFR
 Project-URL: Readme, https://github.com/cfr081709/quickQuantCFR/blob/main/README.md
-Project-URL: License, https://github.com/cfr081709/quickQuantCFR/blob/main/LICENSE
-Project-URL: Changelog, https://github.com/cfr081709/quickQuantCFR/blob/main/CHANGELOG.txt
+Project-URL: License, https://github.com/cfr081709/quickQuantCFR/blob/main/LICENSE.txt
+Project-URL: Changelog, https://github.com/cfr081709/quickQuantCFR/blob/main/CHANGELOG.md
 Requires-Python: >=3.11.9
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
@@ -18,7 +17,7 @@ Requires-Dist: yfinance>=0.2.65
 Dynamic: license-file
 
 Library Overview
-This library provides tools for retrieving, managing, and analyzing stock market data. Data access and preprocessing are handled within the dataCollectionAndModification class, while core computational logic and baseline signal generation are implemented in the stockStandardSignalRetrieval class. The evaluationOfSignals class functions help to evaluate signals collected in the stockStandardSignalRetrieval class.
+This library provides tools for retrieving, managing, and analyzing stock market data. Data access and preprocessing are handled within the dataCollectionAndModification class, while core computational logic and baseline signal generation are implemented in the stockStandardSignalRetrieval class. The evaluationOfSignals class functions help to evaluate signals collected in the stockStandardSignalRetrieval class. Furthermore monte carlo, black scholes, and greek computations are available.
 
 Disclaimer
 ⚠️ This library is intended strictly for educational and research purposes. It is not designed to provide financial advice or investment recommendations. Do not use this software as a basis for making real-world investment decisions.
