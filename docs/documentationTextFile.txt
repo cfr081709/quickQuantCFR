@@ -120,7 +120,7 @@ class monteCarloSimulations:
             - Generates n standard normally distributed random numbers (Z ~ N(0,1)) using NumPy’s default random number generator
             - n is the number of random values to generate
             - returns a NumPy array of length n containing independent standard normal samples
-        def priceOptions(S0, K, r, sigma, T, n_simulations, Print=False):
+        def priceOptions(S0, K, r, sigma, T, n_simulations, Print=False, plot=False):
             -Prices European call and put options using Monte Carlo simulation
             -S0 is the initial stock price
             -K is the strike price
@@ -129,6 +129,7 @@ class monteCarloSimulations:
             -T is the time to maturity of the option in years
             -n_simulations is the number of Monte Carlo simulations to run
             -if Print equal to true the call and put prices are printed
+            - if plot equal to true the simulated stock price paths are plotted
             -returns callPrice, putPrice
 
 class blackScholesModel:

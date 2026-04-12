@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 from scipy.stats import norm
+import matplotlib.pyplot as plt
 
 class dataCollectionAndModification:
     @staticmethod
@@ -185,18 +186,28 @@ class monteCarloSimulations:
     def putPayoff(S, K):
         return np.maximum(K - S, 0)
     @staticmethod
-    def generateRandomNumbers(n):
-        rng = np.random.default_rng()
-        return rng.standard_normal(n)
+    def generateRandomNumbers(mean, std, n):
+        return np.random.normal(mean, std, n)
     @staticmethod
-    def priceOptions(S0, K, r, sigma, T, n_simulations, verbose=False):
+    def priceOptions(S0, K, r, sigma, T, n_simulations, n_steps, verbose=False, plot=False):
         S0 = float(S0)
         K = float(K)
         r = float(r)
         sigma = float(sigma)
         T = float(T)
-        Z = monteCarloSimulations.generateRandomNumbers(n_simulations)
-        ST = S0 * np.exp((r - 0.5 * sigma**2) * T + sigma * np.sqrt(T) * Z)
+        dt = T / n_steps
+        all_paths = []
+        for i in range(n_simulations):
+            Z = monteCarloSimulations.generateRandomNumbers(0, 1, n_steps)
+            S_path = np.zeros(n_steps + 1)
+            S_path[0] = S0
+            for t in range(n_steps):
+                S_path[t+1] = S_path[t] * np.exp(
+                    (r - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z[t]
+                )
+            all_paths.append(S_path)
+        all_paths = np.array(all_paths)
+        ST = all_paths[:, -1]
         callPayoffs = monteCarloSimulations.callPayoff(ST, K)
         putPayoffs = monteCarloSimulations.putPayoff(ST, K)
         discountFactor = np.exp(-r * T)
@@ -205,6 +216,15 @@ class monteCarloSimulations:
         if verbose:
             print(f"Estimated Call Option Price: {callPrice}")
             print(f"Estimated Put Option Price: {putPrice}")
+        if plot:
+            time_grid = np.linspace(0, T, n_steps + 1)
+            for i in range(min(50, n_simulations)):
+                plt.plot(time_grid, all_paths[i])
+            plt.xlabel("Time")
+            plt.ylabel("Stock Price")
+            plt.title("Monte Carlo Simulated Paths")
+            plt.show()
+
         return callPrice, putPrice
 
 class blackScholesPricing:
@@ -316,3 +336,4 @@ class calculateGreeks:
             print(f"Rho Call: {rhoCall}")
             print(f"Rho Put: {rhoPut}")
         return deltaCall, deltaPut, gamma, vega, thetaCall, thetaPut, rhoCall, rhoPut
+

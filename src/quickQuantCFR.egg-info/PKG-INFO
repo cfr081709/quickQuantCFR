@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: quickQuantCFR
-Version: 1.1.0
+Version: 1.1.1
 Summary: A simple quantitative finance library for Python
 Author-email: Christian Rafferty <cfr081709@gmail.com>
 License: MIT

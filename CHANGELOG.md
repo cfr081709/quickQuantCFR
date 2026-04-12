@@ -2,6 +2,21 @@ CHANGELOG
 Latest Version: 1.1.0
 =====================
 
+Version 1.1.1 (4/11/2026)
+-------------------------
+    - Changed generateRandomNumber to take in 3 arguments
+    - Price options function changed:
+        -- Added argument 'plot' which as a boolean
+        -- The multiple paths are plotted if 'plot' is true
+        -- Added for loop to esnure path plotting works
+        -- Imported matplotlib
+        -- y-value is the stock price
+        -- x price is the time (e.g., the x-value for .2 would be 2.4 months into maturity)
+    - Created backtesting engine file
+    - Made data colleciton and validation for backtesting engine
+    - Notes/Goals:
+        -- Finish backesting engine
+
 Version 1.1.0 (4/10/2026)
 -------------------------
     - Added monteCarloSimulations class, and functions to execute simulations
