@@ -2,6 +2,23 @@ CHANGELOG
 Latest Version: 1.1.0
 =====================
 
+Version 1.2.0 (4/12/2026):
+    - Changed dataCollection in core.py:
+        -- Added log returns
+        -- Added logic for empty/null data values
+        -- Added returns
+        -- Added daily change
+        -- Added verbose option
+    - Fully revamped backEngine.py:
+        -- removed checkAndCollectData
+        -- Added event classes and handling:
+            --- Market events
+            --- Order events
+            --- Signal events
+            --- Fill events
+        -- Added data handlers for historical stock data
+    - Changed test.py to also test backtestingEngine.py, and changed to test dataCollection in core.py
+
 Version 1.1.1 (4/11/2026)
 -------------------------
     - Changed generateRandomNumber to take in 3 arguments

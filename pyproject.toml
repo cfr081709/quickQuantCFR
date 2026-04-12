@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quickQuantCFR"
-version = "1.1.1"
+version = "1.2.0"
 description = "A simple quantitative finance library for Python"
 authors = [{name = "Christian Rafferty", email = "cfr081709@gmail.com"}]
 license = {text = "MIT"}
@@ -13,7 +13,10 @@ requires-python = ">=3.11.9"
 dependencies = [
     "numpy>=2.4.1",
     "pandas>=2.3.1",
-    "yfinance>=0.2.65"
+    "yfinance>=0.2.65",
+    "scipy>=1.17.1",
+    "matplotlib>=3.10.8"
+
 ]
 
 [project.urls]

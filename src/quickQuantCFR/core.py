@@ -6,8 +6,21 @@ import matplotlib.pyplot as plt
 
 class dataCollectionAndModification:
     @staticmethod
-    def collectData(ticker, start_date, end_date):
+    def collectData(ticker, start_date, end_date, verbose=False):
         data = yf.download(ticker, start=start_date, end=end_date)
+        if data.empty:
+            raise ValueError("No data found for the given ticker and date range. Check the ticker symbol and date range, else reach out to the developer.")
+        elif data.isnull().values.any():
+            data = data.ffill().bfill()
+        data.index = pd.to_datetime(data.index)
+        data = data.sort_index()
+        data = data[~data.index.duplicated(keep='first')]
+        price_col = 'Adj Close' if 'Adj Close' in data.columns else 'Close'
+        data['returns'] = data[price_col].pct_change().fillna(0)
+        data['daily_change'] = data[price_col] - data['Open']
+        data['log_returns'] = np.log(data[price_col] / data[price_col].shift(1)).fillna(0)
+        if verbose:
+            print(data.head())
         return data
     @staticmethod
     def collectAndStoreData(ticker, start_date, end_date, filename):

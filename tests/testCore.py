@@ -1,4 +1,15 @@
 import numpy as np
+from queue import Queue
+
+from quickQuantCFR.backtestingEngine import (
+    Event,
+    marketEvent,
+    signalEvent,
+    orderEvent,
+    fillEvent,
+    dataHandler,
+    historicalCSVDataHandler
+)
 
 from quickQuantCFR.core import (
     dataCollectionAndModification,
@@ -14,8 +25,7 @@ def run_full_test():
     end_date = "2024-01-01"
 
     print("\n=== 1. DATA DOWNLOAD TEST ===")
-    data = dataCollectionAndModification.collectData(ticker, start_date, end_date)
-    print(data.tail())
+    data = dataCollectionAndModification.collectData(ticker, start_date, end_date, verbose=True)
 
     print("\n=== 2. INDICATORS TEST ===")
 
@@ -62,10 +72,11 @@ def run_full_test():
     r = 0.05
     sigma = 0.2
     T = 1
-    n = 10000
+    n_simulations = 10
+    n_steps = 5
 
     mc_call, mc_put = monteCarloSimulations.priceOptions(
-        S0, K, r, sigma, T, n, verbose=True
+        S0, K, r, sigma, T, n_simulations, n_steps, verbose=True, plot=False
     )
 
     print("\nMonte Carlo Call:", mc_call)
@@ -79,7 +90,33 @@ def run_full_test():
     print("\nBlack-Scholes Call:", bs_call)
     print("Black-Scholes Put:", bs_put)
 
-    print("\n=== ALL TESTS COMPLETE AND FUNCTIONAL===")
+    print("\n === Backtest Engine Tests ===")
+
+    events = Queue()
+    csv_dir = r'C:\Users\Owner\Documents\quickQuantCFR\tests'
+    symbols = ['AAPL']
+    handler = historicalCSVDataHandler(events, csv_dir, symbols)
+
+    print("\nHistorical Data Test:")
+    for s in symbols:
+        print(handler.symbolData[s])
+
+    # Test getNewBars (generator → must iterate)
+    print("\nGet New Bars:")
+    bars = handler.getNewBars(symbols[0])
+    for i, bar in enumerate(bars):
+        print(bar)
+        if i > 5: break   # limit output
+
+    # Test updateBars
+    print("\nUpdate Bars Test:")
+    handler.updateBars()
+
+    # Test getLatestBars
+    print("\nGet Latest Bars:")
+    print(handler.getLatestBars(symbols[0], N=5))
+    
+    print("\n=== ALL TESTS COMPLETE AND FUNCTIONAL ===")
 
 
 if __name__ == "__main__":
