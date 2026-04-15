@@ -4,9 +4,15 @@ pyproject.toml
 src/quickQuantCFR/__init__.py
 src/quickQuantCFR/backtestingEngine.py
 src/quickQuantCFR/core.py
+src/quickQuantCFR.egg-info/._PKG-INFO
+src/quickQuantCFR.egg-info/._SOURCES.txt
+src/quickQuantCFR.egg-info/._dependency_links.txt
+src/quickQuantCFR.egg-info/._requires.txt
+src/quickQuantCFR.egg-info/._top_level.txt
 src/quickQuantCFR.egg-info/PKG-INFO
 src/quickQuantCFR.egg-info/SOURCES.txt
 src/quickQuantCFR.egg-info/dependency_links.txt
 src/quickQuantCFR.egg-info/requires.txt
 src/quickQuantCFR.egg-info/top_level.txt
-tests/test_core.py
+tests/testCore.py
+tests/testingFilePath.py

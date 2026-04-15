@@ -2,7 +2,16 @@ CHANGELOG
 Latest Version: 1.1.0
 =====================
 
+Version 1.2.1 (4/14/2026):
+--------------------------
+    - Added anti-variate monte carlo which also proccess normal monte carlo
+    - Added payoffs as a return and print-out on the standard monte carlo function:
+        -- Functions same as standard monte carlo; though double the outputs
+        -- Two graphs instead of 1
+    - Changed test to adjust for new anti-variate
+
 Version 1.2.0 (4/12/2026):
+--------------------------
     - Changed dataCollection in core.py:
         -- Added log returns
         -- Added logic for empty/null data values

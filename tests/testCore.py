@@ -1,5 +1,8 @@
+import sys
 import numpy as np
 from queue import Queue
+
+sys.path.insert(0, r"E:\quickQuantCFR\src")
 
 from quickQuantCFR.backtestingEngine import (
     Event,
@@ -16,7 +19,9 @@ from quickQuantCFR.core import (
     stockStandardSignalRetrieval,
     evaluationOfSignals,
     monteCarloSimulations,
-    blackScholesPricing
+    blackScholesPricing,
+    calculateGreeks,
+    volatilityARCH
 )
 
 def run_full_test():
@@ -72,15 +77,31 @@ def run_full_test():
     r = 0.05
     sigma = 0.2
     T = 1
-    n_simulations = 10
-    n_steps = 5
+    n_simulations = 1000
+    n_steps = 50
 
-    mc_call, mc_put = monteCarloSimulations.priceOptions(
-        S0, K, r, sigma, T, n_simulations, n_steps, verbose=True, plot=False
+    mc_call, mc_put, mc_putPayoffs, mc_callPayoffs = monteCarloSimulations.priceOptions(
+        S0, K, r, sigma, T, n_simulations, n_steps, verbose=False, plot=True
     )
 
-    print("\nMonte Carlo Call:", mc_call)
-    print("Monte Carlo Put:", mc_put)
+    print("\nMonte Carlo Call Price:", mc_call)
+    print("Monte Carlo Put Price:", mc_put)
+    print("Monte Carlo Call Payoff:", mc_callPayoffs)
+    print("Monte Carlo Put Payoff:", mc_putPayoffs)
+
+    mc_call, mc_put, mc_AntiCall, mc_AntiPut, mc_AntiCallPayoff, mc_AntiPutPayoff, mc_putPayoffs, mc_callPayoffs = monteCarloSimulations.priceOptionsAntiVariate(
+        S0, K, r, sigma, T, n_simulations, n_steps, verbose=False, plot=True
+    )
+
+    print("\nMonte Carlo Call Price:", mc_call)
+    print("Monte Carlo Put Price:", mc_put)
+    print("Anti-Variate Monte Carlo Call Price:", mc_AntiCall)
+    print("Anti-Variate Monte Carlo Put Price:", mc_AntiPut)
+    print("Monte Carlo Call Payoff:", mc_callPayoffs)
+    print("Monte Carlo Put Payoff:", mc_putPayoffs)
+    print("Anti-Variate Monte Carlo Call Payoff:", mc_AntiCallPayoff)
+    print("Anti-Variate Monte Carlo Call Payoff:", mc_AntiPutPayoff)
+
 
     print("\n=== 5. BLACK-SCHOLES TEST ===")
 
@@ -90,7 +111,40 @@ def run_full_test():
     print("\nBlack-Scholes Call:", bs_call)
     print("Black-Scholes Put:", bs_put)
 
-    print("\n === Backtest Engine Tests ===")
+    print("\n==== 6. CALCULATE GREEK'S TEST ====")
+    
+    deltaCall = calculateGreeks.deltaCall(S0, K, r, sigma, T, verbose=False)
+    deltaPut = calculateGreeks.deltaPut(S0, K, r, sigma, T, verbose=False)
+    gamma = calculateGreeks.gamma(S0, K, r, sigma, T, verbose=False)
+    vega = calculateGreeks.vega(S0, K, r, sigma, T, verbose=False)
+    thetaCall = calculateGreeks.thetaCall(S0, K, r, sigma, T, verbose=False)
+    thetaPut = calculateGreeks.thetaPut(S0, K, r, sigma, T, verbose=False)
+    rhoCall = thetaCall = calculateGreeks.rhoCall(S0, K, r, sigma, T, verbose=False)
+    rhoPut = calculateGreeks.rhoPut(S0, K, r, sigma, T, verbose=False)
+
+    print(f"\n Delta Call: {deltaCall}")
+    print(f"Delta Put: {deltaPut}")
+    print(f"Gamma: {gamma}")
+    print(f"Vega: {vega}")
+    print(f"Theta Call: {thetaCall}")
+    print(f"Theta Put: {thetaPut}")
+    print(f"Rho Call: {rhoCall}")
+    print(f"Rho Put: {rhoPut}")
+
+    calculateGreeks.computeAllGreeks(S0, K, r, sigma, T, verbose=True)
+
+    print("\n ==== 7. VOLATILITY FORECAST TEST ===")
+
+    ticker = "AAPL"
+    start_date = "2023-01-01"
+    end_date = "2024-01-01"
+
+
+    weightedMovingAverageVolatility = volatilityARCH.weightedMovingAverageVolatilityForecasting(ticker, start_date, end_date, decayFactor=0.94, verbose=False, plot=True)
+
+    print(f"\n Forecasted Volatility: {weightedMovingAverageVolatility}")
+    
+    print("\n === 8. BACKTEST ENGINE TEST ===")
 
     events = Queue()
     csv_dir = r'C:\Users\Owner\Documents\quickQuantCFR\tests'

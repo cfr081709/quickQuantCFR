@@ -229,16 +229,80 @@ class monteCarloSimulations:
         if verbose:
             print(f"Estimated Call Option Price: {callPrice}")
             print(f"Estimated Put Option Price: {putPrice}")
+            print(f"Estimated Average Call Option Payoff: {np.mean(putPayoffs)}")
+            print(f"Estimated Average Put Option Payoff: {np.mean(putPayoffs)}")
         if plot:
             time_grid = np.linspace(0, T, n_steps + 1)
             for i in range(min(50, n_simulations)):
                 plt.plot(time_grid, all_paths[i])
-            plt.xlabel("Time")
-            plt.ylabel("Stock Price")
+            plt.xlabel("Time in Years")
+            plt.ylabel("Stock Price in USD")
             plt.title("Monte Carlo Simulated Paths")
             plt.show()
 
-        return callPrice, putPrice
+        return callPrice, putPrice, np.mean(putPayoffs), np.mean(callPayoffs)
+    @staticmethod
+    def priceOptionsAntiVariate(S0, K, r, sigma, T, n_simulations, n_steps, verbose=False, plot=False):
+        S0 = float(S0)
+        K = float(K)
+        sigma = float(sigma)
+        T = float(T)
+        dt = T/n_steps
+        all_paths = []
+        antiVariateAll_paths = []
+        for i in range(n_simulations):
+            Z = monteCarloSimulations.generateRandomNumbers(0,1, n_steps)
+            antiVariateZ = Z * -1
+            S_path = np.zeros(n_steps + 1)
+            S_path[0] = S0
+            antiVariateS_path = np.zeros(n_steps + 1)
+            antiVariateS_path[0] = S0
+            for t in range(n_steps):
+                S_path[t + 1] = S_path[t] * np.exp(
+                    (r - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z[t]
+                )
+                antiVariateS_path[t + 1] = S_path[t] * np.exp(
+                    (r - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * antiVariateZ[t]
+                )
+            all_paths.append(S_path)
+            antiVariateAll_paths.append(antiVariateS_path)
+        all_paths = np.array(all_paths)
+        antiVariateAll_paths = np.array(antiVariateAll_paths)
+        ST = all_paths[:, -1]
+        antiVariateST = antiVariateAll_paths[:, -1]
+        callPayoffs = monteCarloSimulations.callPayoff(ST, K)
+        putPayoffs = monteCarloSimulations.putPayoff(ST, K)
+        antiVariateCallPayoffs = monteCarloSimulations.callPayoff(antiVariateST, K)
+        antiVariatePutPayoffs = monteCarloSimulations.putPayoff(antiVariateST, K)
+        discountFactor = np.exp(-r * T)
+        callPrice = discountFactor * np.mean(callPayoffs)
+        putPrice = discountFactor * np.mean(putPayoffs)
+        antiVariateCallPrice = discountFactor * np.mean(antiVariateCallPayoffs)
+        antiVariatePutPrice = discountFactor * np.mean(antiVariatePutPayoffs)
+        if verbose:
+            print(f"Estimated Call Option Price: {callPrice}")
+            print(f"Estimated Put Option Price: {putPrice}")
+            print(f"Estimated Average Call Option Payoff: {np.mean(putPayoffs)}")
+            print(f"Estimated Average Put Option Payoff: {np.mean(putPayoffs)}")
+            print(f"Estimated Anti-Variate Call Option Price: {antiVariateCallPrice}")
+            print(f"Estimated Anti-Variate Put Option Price: {antiVariatePutPrice}")
+            print(f"Estimated Average Anti-Variate Call Option Payoff: {np.mean(antiVariatePutPayoffs)}")
+            print(f"Estimated Average Put Option Payoff: {np.mean(antiVariateCallPayoffs)}")
+        if plot:
+            fig, ax = plt.subplots(1, 2, figsize=(12, 8), squeeze=False)
+            time_grid = np.linspace(0, T, n_steps + 1)
+            for i in range(min(50, n_simulations)):
+                ax[0,0].plot(time_grid, all_paths[i], alpha=0.3)
+                ax[0,0].set_xlabel("Time in Years")
+                ax[0,0].set_ylabel("Stock Price in USD")
+                ax[0,0].set_title("Standard Monte Carlo")
+                ax[0,1].plot(time_grid, antiVariateAll_paths[i])
+                ax[0,1].set_xlabel("Time in Years")
+                ax[0,1].set_ylabel("Stock Price in USD")
+                ax[0,1].set_title("Anti-Variate Monte Carlo")
+            plt.tight_layout() 
+            plt.show()
+        return callPrice, putPrice, antiVariateCallPrice, antiVariatePutPrice, np.mean(antiVariateCallPayoffs), np.mean(antiVariatePutPayoffs), np.mean(callPayoffs), np.mean(putPayoffs)
 
 class blackScholesPricing:
     @staticmethod
@@ -268,75 +332,75 @@ class blackScholesPricing:
 
 class calculateGreeks:
     @staticmethod
-    def deltaCall(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def deltaCall(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         delta_call = norm.cdf(d1)
         if verbose:
             print(f"Delta of Call Option: {delta_call}")
         return delta_call
     @staticmethod
-    def deltaPut(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def deltaPut(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         delta_put = norm.cdf(d1) - 1
         if verbose:
             print(f"Delta of Put Option: {delta_put}")
         return delta_put   
     @staticmethod
-    def gamma(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-        gamma = norm.pdf(d1) / (S * sigma * np.sqrt(T))
+    def gamma(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+        gamma = norm.pdf(d1) / (S0 * sigma * np.sqrt(T))
         if verbose:
             print(f"Gamma: {gamma}")
         return gamma
     @staticmethod
-    def vega(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-        vega = S * norm.pdf(d1) * np.sqrt(T)
+    def vega(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+        vega = S0 * norm.pdf(d1) * np.sqrt(T)
         if verbose:
             print(f"Vega: {vega}")
         return vega
     @staticmethod
-    def thetaCall(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def thetaCall(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - (sigma * np.sqrt(T))
-        theta_call = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) - (r * K * np.exp(-r * T) * norm.cdf(d2))
+        theta_call = (-S0 * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) - (r * K * np.exp(-r * T) * norm.cdf(d2))
         if verbose:
             print(f"Theta of Call Option: {theta_call}")
         return theta_call
     @staticmethod
-    def thetaPut(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def thetaPut(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - (sigma * np.sqrt(T))
-        theta_put = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) + (r * K * np.exp(-r * T) * norm.cdf(-d2))
+        theta_put = (-S0 * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) + (r * K * np.exp(-r * T) * norm.cdf(-d2))
         if verbose:
             print(f"Theta of Put Option: {theta_put}")
         return theta_put
     @staticmethod
-    def rhoCall(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def rhoCall(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - (sigma * np.sqrt(T))
         rho_call = K * T * np.exp(-r * T) * norm.cdf(d2)
         if verbose:
             print(f"Rho of Call Option: {rho_call}")
         return rho_call
     @staticmethod
-    def rhoPut(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def rhoPut(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - (sigma * np.sqrt(T))
         rho_put = -K * T * np.exp(-r * T) * norm.cdf(-d2)
         if verbose:
             print(f"Rho of Put Option: {rho_put}")
         return rho_put
     @staticmethod
-    def computeAllGreeks(S, K, r, sigma, T, verbose=False):
-        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    def computeAllGreeks(S0, K, r, sigma, T, verbose=False):
+        d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - (sigma * np.sqrt(T))
         deltaCall = norm.cdf(d1)
         deltaPut = norm.cdf(d1) - 1
-        gamma = norm.pdf(d1) / (S * sigma * np.sqrt(T))
-        vega = S * norm.pdf(d1) * np.sqrt(T)
-        thetaCall = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) - (r * K * np.exp(-r * T) * norm.cdf(d2))
-        thetaPut = (-S * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) + (r * K * np.exp(-r * T) * norm.cdf(-d2))
+        gamma = norm.pdf(d1) / (S0 * sigma * np.sqrt(T))
+        vega = S0 * norm.pdf(d1) * np.sqrt(T)
+        thetaCall = (-S0 * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) - (r * K * np.exp(-r * T) * norm.cdf(d2))
+        thetaPut = (-S0 * norm.pdf(d1) * sigma / (2 * np.sqrt(T))) + (r * K * np.exp(-r * T) * norm.cdf(-d2))
         rhoCall = K * T * np.exp(-r * T) * norm.cdf(d2)
         rhoPut = -K * T * np.exp(-r * T) * norm.cdf(-d2)
         if verbose:
@@ -349,4 +413,27 @@ class calculateGreeks:
             print(f"Rho Call: {rhoCall}")
             print(f"Rho Put: {rhoPut}")
         return deltaCall, deltaPut, gamma, vega, thetaCall, thetaPut, rhoCall, rhoPut
-
+    
+class volatilityARCH:
+    @staticmethod
+    def weightedMovingAverageVolatilityForecasting(ticker, startDate, endDate, decayFactor=0.94, verbose=False, plot=False):
+        data = yf.download(ticker, start=startDate, end=endDate)
+        if data.empty:
+            raise ValueError("No data returned from yfinance")
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = data.columns.get_level_values(0)
+        price_col = 'Adj Close' if 'Adj Close' in data.columns else 'Close'
+        data['Returns'] = np.log(data[price_col] / data[price_col].shift(1))
+        data['Squared_Returns'] = data['Returns']**2
+        alpha = 1 - decayFactor
+        data['EWMA_Variance'] = data['Squared_Returns'].ewm(alpha=alpha, adjust=False).mean()
+        data['Volatility_Forecast'] = np.sqrt(data['EWMA_Variance'])
+        if verbose:
+            print(f"Forecasted Volatility: {data['Volatility_Forecast'].iloc[-1]}")
+        if plot:
+            plt.plot(data['Volatility_Forecast'])
+            plt.xlabel("Time")
+            plt.ylabel("Volatility")
+            plt.title("Forecasted Volatility")
+            plt.show()
+        return data['Volatility_Forecast'].iloc[-1]

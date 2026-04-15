@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: quickQuantCFR
-Version: 1.1.1
+Version: 1.2.0
 Summary: A simple quantitative finance library for Python
 Author-email: Christian Rafferty <cfr081709@gmail.com>
 License: MIT
@@ -14,10 +14,14 @@ License-File: LICENSE.txt
 Requires-Dist: numpy>=2.4.1
 Requires-Dist: pandas>=2.3.1
 Requires-Dist: yfinance>=0.2.65
+Requires-Dist: scipy>=1.17.1
+Requires-Dist: matplotlib>=3.10.8
 Dynamic: license-file
 
 Library Overview
 This library provides tools for retrieving, managing, and analyzing stock market data. Data access and preprocessing are handled within the dataCollectionAndModification class, while core computational logic and baseline signal generation are implemented in the stockStandardSignalRetrieval class. The evaluationOfSignals class functions help to evaluate signals collected in the stockStandardSignalRetrieval class. Furthermore monte carlo, black scholes, and greek computations are available.
+
+BACKTEST ENGINE HAS BEEN UPLOADED BUT DOESN'T FUNCTION --- DO NOT USE
 
 Disclaimer
 ⚠️ This library is intended strictly for educational and research purposes. It is not designed to provide financial advice or investment recommendations. Do not use this software as a basis for making real-world investment decisions.
